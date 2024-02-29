@@ -38,15 +38,20 @@ export async function POST(request){
     const is_admin = (role === "admin");
     const is_manager = (role === "manager");
 
-    if (!email || !password){
-        return new Response("Your email or password invalid", { status: 400 });
+    if (password !== confirmPassword) {
+        return Response.json({data: null, error: "Your password do not match"});
     }
 
-    const passwordHash = hashPassword(password);
+
+    if (!email || !password){
+        return Response.json({data: null, error: "Your email or password invalid"});
+    }
+
+    const hashedPassword = await hashPassword(password);
 
 
-    const { rows: newUser } = await sql`INSERT INTO Users (first_name, last_name, email, password, is_admin, is_manager) VALUES (${first_name}, ${last_name}, ${email}, ${passwordHash}, ${is_admin}, ${is_manager}) RETURNING *`;
-
-    return Response.json({data: newUser});
+    const { rows: newUser } = await sql`INSERT INTO Users (first_name, last_name, email, password, is_admin, is_manager) VALUES (${first_name}, ${last_name}, ${email}, ${hashedPassword}, ${is_admin}, ${is_manager}) RETURNING *`;
+    
+    return Response.json({data: newUser, error: null});
 
 }
