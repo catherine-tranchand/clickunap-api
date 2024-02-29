@@ -4,10 +4,11 @@ export default function RegisterPage() {
     <main className="flex flex-col items-center justify-center p-24">
       
       <form method="POST" action="/users" className="flex flex-col space-y-6">
-        <label>Firstname: <input type="text" name="first_name" /></label>
-        <label>Lastname: <input type="text" name="last_name" /></label>
+        <label>Firstname: <input type="text" name="firstName" /></label>
+        <label>Lastname: <input type="text" name="lastName" /></label>
         <label>Email: <input type="email" name="email" required/></label>
         <label>Password: <input type="password" name="password" required /></label>
+        <label>Confirm Password: <input type="password" name="confirmPassword" required /></label>
 
         <label>Role: <select name="role" required>
             <option value="">--Please choose a role--</option>
