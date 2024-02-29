@@ -11,3 +11,9 @@ export const generateJWT = (email, password, expiresIn = "30 days") => {
     return token;
 
 }
+
+// function to decode the given user token ('skflskfjslfkl34543434rsefs$')
+// returns eg. { email: 'kdsjfl', password: '...'}
+export const decodeJWT = (userToken) => {
+    return jwt.decode(userToken);
+}

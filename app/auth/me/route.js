@@ -1,18 +1,30 @@
+import { sql } from '@vercel/postgres';
+import { decodeJWT } from '@/utils/jwt';
 
-
-// route to find the user with an id
-export async function POST(request){
+// route to return all the info of the user with a token (aka. moi)
+export async function GET(request){
     const formData = await request.formData();
 
-    const userId = formData.get("user_id");
+    const userToken = formData.get("userToken");
 
-    if (!userId){
-        return new Response("Error: user not found!", { status: 400 });
+    const { email, password } = decodeJWT(userToken);
+
+    if (!email || !password){
+        return Response.json({data: null, error: "User does not exist!"});
     }
 
-    const { rows: me } = await sql`SELECT user_id, first_name, last_name, email, created_at FROM Users WHERE user_id = ${userId}`;
-    
+    const { rows: users } = await sql`SELECT * FROM Users WHERE email = ${email}`;
 
-    return Response.json({data: me});
+    if (rows.length === 0) {
+        return Response.json({data: null, error: "User does not exist!"});
+    }
+
+
+    const meData = {
+        ...users[0],
+        password: '***',
+    }
+    
+    return Response.json({data: meData, error: null});
 
 }
