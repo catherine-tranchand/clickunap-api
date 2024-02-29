@@ -1,12 +1,14 @@
-import { sql } from '@vercel/postgres';
-import { decodeJWT } from '@/utils/jwt';
+// import { sql } from '@vercel/postgres';
+// import { decodeJWT } from '@/utils/jwt';
 
 // route to return all the info of the user with a token (aka. moi)
 export async function GET(request){
-    const formData = await request.formData();
+    //const formData = //await request.formData();
 
-    const userToken = formData.get("userToken");
+    // const userToken = formData.get("userToken");
 
+    const userToken = request.nextUrl.searchParams.get('userToken');
+    /*
     const { email, password } = decodeJWT(userToken);
 
     if (!email || !password){
@@ -26,5 +28,9 @@ export async function GET(request){
     }
     
     return Response.json({data: meData, error: null});
+    */
+
+    return Response.json({userToken});
+
 
 }
