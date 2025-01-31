@@ -1,6 +1,7 @@
 import { sql } from "@vercel/postgres"
 import { verifyPassword } from "@/utils/bcrypt"; 
 import { generateJWT } from "@/utils/jwt"; 
+import { cookies } from "next/headers";
 
 
 
@@ -9,6 +10,9 @@ import { generateJWT } from "@/utils/jwt";
 // route to login an user
 // GOAL: http://localhost:3000/auth/login?email=ekaterina.tranchand@gmail.com&password=mama
 export async function POST(request){
+    // create a cookie store
+    const cookieStore = await cookies();
+
     const formData = await request.formData();
 
     const email = formData.get("email");
@@ -41,13 +45,16 @@ export async function POST(request){
 
 
 
-    const token = generateJWT(email, password);
+    const token = generateJWT(email, hashedPassword);
 
     const data = {
         ...user,
         password: "@@@",
         token, 
     }
+
+    // store the token in a cookie
+    cookieStore.set("token", token);
 
     return Response.json({data, error: null});
 
