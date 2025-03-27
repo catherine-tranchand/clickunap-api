@@ -77,8 +77,7 @@ export async function POST(request) {
 
             // first_name, last_name, email, password, is_admin, is_manager) VALUES (${first_name}, ${last_name}, ${email}, ${hashedPassword}, ${is_admin}, ${is_manager}) RETURNING *
             payload = {
-              // TODO: add user_id
-              // user_id: userData.user_id, 
+              user_id: userData.user_id, 
               first_name: userData.first_name,
               last_name: userData.last_name,
               email: userData.email,
