@@ -1,6 +1,28 @@
 import { sql } from "@vercel/postgres";
 import { recoverEmailPassword } from "@/utils/jwt"; 
 
+
+
+// Handling the OPTIONS
+export async function OPTIONS(request) {
+  return new Response(null, {
+    status: 204,
+
+    headers: {
+      "Access-Control-Allow-Origin": "*", // TEMP: allow all
+      "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+      "Access-Control-Allow-Headers": "Content-Type, Authorization", // Content-Type
+      // "Access-Control-Max-Age": "3600", // Temp: 1 hour
+    },
+
+  });
+}
+
+
+
+
+
+
 // route to find the user with an id
 /*
 export async function POST(request){
