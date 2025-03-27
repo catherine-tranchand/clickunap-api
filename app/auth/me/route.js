@@ -26,10 +26,14 @@ export async function POST(request){
  * Route to get all the user info using a token
  */
 export async function POST(request) {
+    
+    // Extracting token from Bearer <token> as userToken
+    const authHeader = request.headers.get("authorization");
+    const userToken = authHeader ? authHeader.split(" ")[1] : "";
 
     // TEMP: getting the token from the request's form data
-    const formData = await request.formData();
-    const userToken = formData.get("token");
+    // const formData = await request.formData();
+    // const userToken = formData.get("token");
 
     // const tokenData = request.cookies.get("token");
     // const userToken = tokenData ? tokenData.value : "";
@@ -51,6 +55,8 @@ export async function POST(request) {
 
             // first_name, last_name, email, password, is_admin, is_manager) VALUES (${first_name}, ${last_name}, ${email}, ${hashedPassword}, ${is_admin}, ${is_manager}) RETURNING *
             payload = {
+              // TODO: add user_id
+              // user_id: userData.user_id, 
               first_name: userData.first_name,
               last_name: userData.last_name,
               email: userData.email,
