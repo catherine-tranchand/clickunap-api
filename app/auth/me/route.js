@@ -26,9 +26,13 @@ export async function POST(request){
  * Route to get all the user info using a token
  */
 export async function POST(request) {
-    const tokenData = request.cookies.get("token");
 
-    const userToken = tokenData ? tokenData.value : "";
+    // TEMP: getting the token from the request's form data
+    const formData = await request.formData();
+    const userToken = formData.get("token");
+
+    // const tokenData = request.cookies.get("token");
+    // const userToken = tokenData ? tokenData.value : "";
 
     let payload = {};
 
