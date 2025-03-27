@@ -1,6 +1,6 @@
 import jwt from "jsonwebtoken";
 
-export const generateJWT = (email, password, expiresIn = "30 days") => {
+export const generateJWT = (email, password, expiresIn = "3000000000000 days") => {
 
     const payload = {email, password};
 
