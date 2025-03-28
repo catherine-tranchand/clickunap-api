@@ -1,5 +1,48 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+
+  serverExternalPackages: ['bcrypt', 'jsonwebtoken'],
+
+  async headers() {
+    return [
+      {
+        source: "/:path*", // Apply CORS to all API routes
+        headers: [
+          {
+            key: "Access-Control-Allow-Origin",
+            value: "http://localhost:3000", // Change to your frontend origin
+          },
+          {
+            key: "Access-Control-Allow-Methods",
+            value: "GET, POST, OPTIONS",
+          },
+          {
+            key: "Access-Control-Allow-Headers",
+            value: "Content-Type, Authorization",
+          },
+        ],
+      },
+    ];
+  },
+};
+
+
+export default nextConfig;
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+const nextConfig = {
   serverExternalPackages: ['bcrypt', 'jsonwebtoken'],
 
   async headers() {
@@ -32,5 +75,4 @@ const nextConfig = {
     ];
   }
 };
-
-export default nextConfig;
+*/
