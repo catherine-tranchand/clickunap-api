@@ -9,12 +9,16 @@ const nextConfig = {
         source: "/:path*", // Apply CORS to all API routes
         headers: [
           {
+            key: "Access-Control-Allow-Credentials",
+            value: "true",
+          },
+          {
             key: "Access-Control-Allow-Origin",
-            value: "http://localhost:3000", // Change to your frontend origin
+            value: "*", // allow all origins 
           },
           {
             key: "Access-Control-Allow-Methods",
-            value: "GET, POST, OPTIONS",
+            value: "GET, OPTIONS, PATCH, DELETE, POST, PUT",
           },
           {
             key: "Access-Control-Allow-Headers",
