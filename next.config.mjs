@@ -1,14 +1,16 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  experimental: {
-      serverComponentsExternalPackages: ['bcrypt', 'jsonwebtoken'],
-  },
+  serverExternalPackages: ['bcrypt', 'jsonwebtoken'],
 
   async headers() {
     return [
       {
-        source: '/:path*',
+        source: '/(.*)', // b4: /:path*
         headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: "*",
+          },
           {
             key: 'Access-Control-Allow-Credentials',
             value: 'true',

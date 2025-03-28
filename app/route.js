@@ -1,15 +1,8 @@
 
-
-
-
-
-
-
-
-
-
-
 export async function GET(request) {
+  return new Response("Welcome to Clickunap API");
+
+  /*
     return new Response("welcome to clickunap API", {
         status: 200,
         headers: {
@@ -18,4 +11,5 @@ export async function GET(request) {
             'Access-Control-Allow-Headers': 'Content-Type, Authorization',
           },
     })
+  */
 }
