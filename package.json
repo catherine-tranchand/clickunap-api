@@ -2,6 +2,9 @@
   "name": "clickunap-api",
   "version": "0.1.2",
   "private": true,
+  "author": "Catherine Tranchand <catherine.tranchand@laplateforme.io>",
+  "description": "A Clickunap API with Next.js",
+  "repository": "github:catherine-tranchand/clickunap-api",
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
