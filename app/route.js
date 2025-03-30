@@ -1,6 +1,6 @@
 
 export async function GET(request) {
-  return new Response("Welcome to Clickunap API 0.1.2");
+  return new Response("Welcome to Clickunap API 0.1.2 - Copyright (c) 2025");
 
   /*
     return new Response("welcome to clickunap API", {
