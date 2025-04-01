@@ -12,8 +12,17 @@ export async function GET(request){
   const limit = searchParams.get("limit");
   const offset = searchParams.get("offset");
   
+  
   // get all the managers
-  const { rows: allManagers } = await sql`SELECT * FROM Users WHERE is_manager = true LIMIT ${limit} OFFSET ${offset}`;
+  // create the query
+  let query = `SELECT * FROM Users WHERE is_manager = true`;
+  // if `limit` & `offset` are provided 
+  if (limit && offset) {
+    query += ` LIMIT ${limit} OFFSET ${offset}`;
+  }
+
+  // get all the managers
+  const { rows: allManagers } = await sql`${query}`;
   
   // get the total number of managers
   const { rows: totalManagers } = await sql`SELECT COUNT(*) FROM Users WHERE is_manager = true`;
