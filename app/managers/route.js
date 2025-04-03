@@ -16,10 +16,11 @@ export async function GET(request){
   // get all the managers
   // create the query
   let query = `SELECT * FROM Users WHERE is_manager = true`;
+  // if `limit` is provided 
+  if (limit > 0) query += ` LIMIT ${limit}`;
   // if `limit` & `offset` are provided 
-  if (limit && offset) {
-    query += ` LIMIT ${limit} OFFSET ${offset}`;
-  }
+  if (offset > 0) query += ` OFFSET ${offset}`;
+  
 
   // get all the managers
   const { rows: allManagers } = await sql`${query}`;
