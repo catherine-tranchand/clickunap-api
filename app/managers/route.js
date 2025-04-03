@@ -13,23 +13,30 @@ export async function GET(request){
   // const offset = searchParams.get("offset");
   
   
-  // get all the managers
-  // create the query
-  let query = `SELECT * FROM Users WHERE is_manager = true`;
-  // if `limit` is provided 
-  // if (limit > 0) { query += ` LIMIT ${limit}` };
-  // if `limit` & `offset` are provided 
-  // if (offset > 0) { query += ` OFFSET ${offset}`};
-  
+  // try to get all the managers
+  try {
 
-  // get all the managers
-  const { rows: allManagers } = await sql`${query}`;
-  
-  // get the total number of managers
-  const { rows: totalManagers } = await sql`SELECT COUNT(*) FROM Users WHERE is_manager = true`;
+    // get all the managers
+    // create the query
+    let query = `SELECT * FROM Users WHERE is_manager = true`;
+    // if `limit` is provided 
+    // if (limit > 0) { query += ` LIMIT ${limit}` };
+    // if `limit` & `offset` are provided 
+    // if (offset > 0) { query += ` OFFSET ${offset}`};
+    
+
+    // get all the managers
+    const { rows: allManagers } = await sql`${query}`;
+    
+    // get the total number of managers
+    const { rows: totalManagers } = await sql`SELECT COUNT(*) FROM Users WHERE is_manager = true`;
 
 
-  return Response.json({data: allManagers, count: allManagers.length, total: totalManagers[0].count, error: null});
+    return Response.json({data: allManagers, count: allManagers.length, total: totalManagers[0].count, error: null});
+
+  catch (error) {
+    return Response.json({data: null, error: error.message});
+  }
 }
 
 
