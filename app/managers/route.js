@@ -9,8 +9,8 @@ import { hashPassword } from "@/utils/bcrypt";
 export async function GET(request){
   // get the `limit` & `offset` query params
   const { searchParams } = new URL(request.url);
-  // const limit = searchParams.get("limit");
-  // const offset = searchParams.get("offset");
+  const limit = searchParams.get("limit");
+  const offset = searchParams.get("offset") ?? 0;
   
   
   // try to get all the managers
@@ -18,24 +18,22 @@ export async function GET(request){
 
     // get all the managers
     // create the query
-    let query = `SELECT * FROM Users WHERE is_manager = true`;
-    // if `limit` is provided 
-    // if (limit > 0) { query += ` LIMIT ${limit}` };
-    // if `limit` & `offset` are provided 
-    // if (offset > 0) { query += ` OFFSET ${offset}`};
-    
+    let query = sql`SELECT * FROM Users WHERE is_manager = true`;
+    // if `limit` and `offset` are provided
+    if (limit > 0 && offset >= 0) { 
+      query = sql`SELECT * FROM Users WHERE is_manager = true LIMIT ${limit} OFFSET ${offset}`;
+    };
 
     // get all the managers
-    const { rows: allManagers } = await sql`${query}`;
+    const { rows: allManagers } = await query;
     
     // get the total number of managers
     const { rows: totalManagers } = await sql`SELECT COUNT(*) FROM Users WHERE is_manager = true`;
 
-
     return Response.json({data: allManagers, count: allManagers.length, total: totalManagers[0].count, error: null});
 
-  catch (error) {
-    return Response.json({data: null, error: error.message});
+  } catch (error) {
+    return Response.json({data: null, count: 0, total: 0, error: error.message});
   }
 }
 
