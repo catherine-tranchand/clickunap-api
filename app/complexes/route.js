@@ -8,12 +8,20 @@ import { sql } from "@vercel/postgres";
  * Route used to get all complexes
  */
 export async function GET(request) {
+  // get the `limit` & `offset` query params
+  const { searchParams } = new URL(request.url);
+  const limit = searchParams.get("limit") ?? 10;
+  const offset = searchParams.get("offset") ?? 0;
+  
   // try getting all complexes
   try {
 
-    const { rows: allComplexes } = await sql`SELECT * FROM Complexes`;
+    const { rows: allComplexes } = await sql`SELECT * FROM Complexes LIMIT ${limit} OFFSET ${offset}`;
 
-    return Response.json({data: allComplexes, error: null});
+    // get the total number of complexes
+    const { rows: totalComplexes } = await sql`SELECT COUNT(*) FROM Complexes`;
+
+    return Response.json({data: allComplexes, count: allComplexes.length, total: totalComplexes[0].count, error: null});
     
   } catch(error) {
 
@@ -31,16 +39,21 @@ export async function GET(request) {
 export async function POST(request) {
   const formData = await request.formData();
   
-  // get the complex name as `name`
-  const name = formData.get("name");
+  // extract the complex's `territoryId`, `nameId`, `name` and `directorName` from the form data
+  const territoryId = formData.get("territory_id");
   const nameId = formData.get("name_id");
+  const name = formData.get("name");
+  const directorName = formData.get("director_name");
 
   // try to add this new complex 
   try {
 
-    const { rows: newTerritory } = await sql`INSERT INTO Complexes (name, name_id) VALUES (${name}, ${nameId}) RETURNING *`;
+    const { rows: newTerritory } = await sql`
+    INSERT INTO Complexes (territory_id, name_id, name, director_name) 
+    VALUES (${territoryId}, ${nameId}, ${name}, ${directorName}) 
+    RETURNING *`;
     
-    return Response.json({data: newTerritory, error: null});
+    return Response.json({data: newTerritory[0], error: null});
 
   } catch (error) {
     return Response.json({data: null, error: error.message});

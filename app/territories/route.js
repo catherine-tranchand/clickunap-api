@@ -50,7 +50,7 @@ export async function POST(request) {
 
     const { rows: newTerritory } = await sql`INSERT INTO Territories (name_id, name) VALUES (${nameId}, ${name}) RETURNING *`;
     
-    return Response.json({data: newTerritory, error: null});
+    return Response.json({data: newTerritory[0], error: null});
 
   } catch (error) {
     return Response.json({data: null, error: error.message});
