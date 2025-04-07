@@ -89,28 +89,38 @@ export async function POST(request) {
     VALUES (${territoryId}, ${complexId}, ${address}) 
     RETURNING *`;
 
+
     // get the office id
     const officeId = newOffice[0].id;
+  
+    const splitNames = names.split(",").map((name) => name.trim());
+    const splitEmails = emails.split(",").map((email) => email.trim());
+    const splitPhonenumbers = phonenumbers.split(",").map((phonenumber) => phonenumber.trim());
+
     // add the names
     if (names) {
-      for (const name of names.split(",")) {
+      for (const name of splitNames) {
         await sql`INSERT INTO Offices_names (office_id, name) VALUES (${officeId}, ${name})`;
       }
     }
     // add the emails
     if (emails) {
-      for (const email of emails.split(",")) {
+      for (const email of splitEmails) {
         await sql`INSERT INTO Offices_emails (office_id, email) VALUES (${officeId}, ${email})`;
       }
     }
     // add the phonenumbers
     if (phonenumbers) {
-      for (const phonenumber of phonenumbers.split(",")) {
+      for (const phonenumber of splitPhonenumbers) {
         await sql`INSERT INTO Offices_phonenumbers (office_id, phonenumber) VALUES (${officeId}, ${phonenumber})`;
       }
     }
     
-    return Response.json({data: newOffice, error: null});
+    return Response.json({data: {...newOffice[0], 
+      names: splitNames, 
+      emails: splitEmails, 
+      phonenumbers: splitPhonenumbers,
+    }, error: null});
 
   } catch (error) {
     return Response.json({data: null, error: error.message});
