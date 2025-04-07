@@ -23,7 +23,7 @@ export async function GET(request) {
     const { rows: totalTerritories } = await sql`SELECT COUNT(*) FROM Territories`;
 
 
-    return Response.json({data: allTerritories, count: allTerritories.length, total: totalTerritories[0].count, error: null});
+    return Response.json({data: allTerritories, count: allTerritories.length, total: parseInt(totalTerritories[0].count), error: null});
     
   } catch(error) {
 

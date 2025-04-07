@@ -53,7 +53,7 @@ export async function GET(request) {
     // get a total number of offices
     const { rows: totalOffices } = await sql`SELECT COUNT(*) FROM Offices`;
     
-    return Response.json({data: allOffices, count: allOffices.length, total: totalOffices[0].count, error: null});
+    return Response.json({data: allOffices, count: allOffices.length, total: parseInt(totalOffices[0].count), error: null});
     
   } catch(error) {
 

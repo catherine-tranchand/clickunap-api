@@ -21,7 +21,7 @@ export async function GET(request) {
     // get the total number of complexes
     const { rows: totalComplexes } = await sql`SELECT COUNT(*) FROM Complexes`;
 
-    return Response.json({data: allComplexes, count: allComplexes.length, total: totalComplexes[0].count, error: null});
+    return Response.json({data: allComplexes, count: allComplexes.length, total: parseInt(totalComplexes[0].count), error: null});
     
   } catch(error) {
 
