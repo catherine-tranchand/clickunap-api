@@ -106,7 +106,7 @@ export async function POST(request) {
     // add the phonenumbers
     if (phonenumbers) {
       for (const phonenumber of phonenumbers.split(",")) {
-        await sql`INSERT INTO Offices_phonenumbers (office_id, phone) VALUES (${officeId}, ${phonenumber})`;
+        await sql`INSERT INTO Offices_phonenumbers (office_id, phonenumber) VALUES (${officeId}, ${phonenumber})`;
       }
     }
     
